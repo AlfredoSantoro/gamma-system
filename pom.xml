@@ -21,6 +21,7 @@
         <module>document-storage-service</module>
         <module>model</module>
         <module>auth-service</module>
+        <module>utils</module>
     </modules>
 
     <properties>
