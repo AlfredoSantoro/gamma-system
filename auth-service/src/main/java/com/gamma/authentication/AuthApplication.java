@@ -1,4 +1,4 @@
-package com.gamma;
+package com.gamma.authentication;
 
 import com.gamma.auth.Sha256PasswordEncoder;
 import com.gamma.model.User;
@@ -6,22 +6,20 @@ import com.gamma.model.UserServiceMatrix;
 import com.gamma.model.UserType;
 import com.gamma.repository.UserMatrixRepository;
 import com.gamma.repository.UserRepository;
-import com.gamma.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.List;
 
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
-@Import(SecurityConfig.class)
+@SpringBootApplication
 @EntityScan("com.gamma.model")
-@ComponentScan({"com.gamma.auth"})
+@EnableJpaRepositories({"com.gamma.repository"})
+@ComponentScan({"com.gamma.auth", "com.gamma.authentication"})
 public class AuthApplication implements CommandLineRunner {
 
     @Autowired
