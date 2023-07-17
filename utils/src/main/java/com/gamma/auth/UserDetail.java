@@ -1,17 +1,12 @@
 package com.gamma.auth;
 
 import com.gamma.model.User;
-import com.gamma.model.UserServiceMatrix;
-import com.gamma.repository.UserMatrixRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
 
-@Component
 public class UserDetail implements UserDetails {
 
     private User user;
@@ -36,7 +31,7 @@ public class UserDetail implements UserDetails {
     public String getPassword() { return this.user.getPassword();}
 
     @Override
-    public String getUsername() { return this.getUsername(); }
+    public String getUsername() { return this.user.getUsername(); }
 
     @Override
     public boolean isAccountNonExpired() {

@@ -1,6 +1,6 @@
 package com.gamma.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @IdClass(UserServiceMatrixId.class)

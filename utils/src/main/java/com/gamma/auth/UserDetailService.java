@@ -35,14 +35,17 @@ public class UserDetailService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        this.logger.info("### checking user #" + username);
+        this.logger.info("### checking user " + username);
         Optional<User> optionalUser = this.userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
-            var grantedAuthorityList = this.userMatrixRepository.findByUserType(optionalUser.get().getUserType().name())
+            var grantedAuthorityList = this.userMatrixRepository.findByUserType(optionalUser.get().getUserType())
                     .stream()
                     .map((record) -> (GrantedAuthority) record::getService)
                     .toList();
             return new UserDetail(optionalUser.get(), grantedAuthorityList);
-        } else throw new UsernameNotFoundException(username + " not found");
+        } else {
+            this.logger.info("### user not found");
+            throw new UsernameNotFoundException(username + " not found");
+        }
     }
 }

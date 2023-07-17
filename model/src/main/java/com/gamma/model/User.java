@@ -1,6 +1,6 @@
 package com.gamma.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -43,6 +43,14 @@ public class User {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

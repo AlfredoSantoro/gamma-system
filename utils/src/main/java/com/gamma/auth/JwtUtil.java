@@ -29,7 +29,7 @@ public class JwtUtil {
     private static final String issuer = "gemma-system";
 
     public static String createJwt(String subject, String secret, List<String> authority) {
-        logger.info("### creating JWT for subject #$subject");
+        logger.info("### creating JWT for subject #"+subject);
         final JWTCreator.Builder builder = JWT.create()
                 .withSubject(subject)
                 .withIssuer(issuer)
