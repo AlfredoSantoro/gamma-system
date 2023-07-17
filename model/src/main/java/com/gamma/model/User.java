@@ -7,14 +7,17 @@ public class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private String name;
     private String surname;
     @Enumerated(EnumType.STRING)
     private UserType userType;
+    @Column(nullable = false, unique = true)
+    private String username;
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
