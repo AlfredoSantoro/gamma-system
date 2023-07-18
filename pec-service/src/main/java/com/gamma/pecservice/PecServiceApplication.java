@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EntityScan("com.gamma.model")
 @EnableJpaRepositories({"com.gamma.repository"})
-
 @ComponentScan({"com.gamma.auth", "com.gamma.pecservice"})
 public class PecServiceApplication {
 
