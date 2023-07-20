@@ -1,6 +1,8 @@
 package com.gamma.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -18,6 +20,7 @@ import java.util.List;
 public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private static final String loginType = "POST";
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
     private String param;
     private String prefix;
     private String secret;
@@ -43,7 +46,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
         response.addHeader(this.param, this.prefix + " " + accessToken);
         response.addHeader("Content-Type", "application/json");
         String loginResponse = objectMapper.writeValueAsString(new LoginResponse(user.getUsername(), accessToken, user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()));
-        this.logger.info("### successfulAuthentication for " + user.getUsername());
+        this.logger.info("### successfulAuthentication for {}", user.getUsername());
         response.getWriter().write(loginResponse);
     }
 
@@ -51,7 +54,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException, IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Login login = objectMapper.readValue(httpServletRequest.getInputStream(), Login.class);
-        this.logger.info("### login attempt for " + login.getUsername());
+        this.logger.info("### login attempt for {}", login.getUsername());
         return this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword(), List.of()));
     }
 }

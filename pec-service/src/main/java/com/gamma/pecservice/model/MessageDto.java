@@ -1,32 +1,17 @@
-package com.gamma.model;
+package com.gamma.pecservice.model;
 
-import org.hibernate.annotations.CreationTimestamp;
+import com.gamma.model.Message;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
-@Entity
-public class Message {
-    @Id
-    @GeneratedValue
+public class MessageDto {
     private UUID id;
     private String text;
     private String object;
-    @CreationTimestamp
     private LocalDate date;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Pec sender;
-    @ManyToMany
-    @JoinTable(
-            name = "pec_message",
-            joinColumns = @JoinColumn(name = "message_id"),
-            inverseJoinColumns = @JoinColumn(name = "pec_id")
-    )
-    private Set<Pec> messageReceivers = new HashSet<>();
+    private String sender;
 
     public UUID getId() {
         return id;
@@ -60,29 +45,20 @@ public class Message {
         this.date = date;
     }
 
-    public Pec getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(Pec pec) {
-        this.sender = pec;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
-
-    public Set<Pec> getMessageReceivers() {
-        return messageReceivers;
-    }
-
-    public void setMessageReceivers(Set<Pec> messageReceivers) {
-        this.messageReceivers = messageReceivers;
-    }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
-        return id.equals(message.id);
+        MessageDto that = (MessageDto) o;
+        return id.equals(that.id);
     }
 
     @Override

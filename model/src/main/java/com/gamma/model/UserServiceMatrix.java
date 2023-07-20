@@ -1,6 +1,7 @@
 package com.gamma.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @IdClass(UserServiceMatrixId.class)
@@ -27,5 +28,18 @@ public class UserServiceMatrix {
 
     public void setService(String service) {
         this.service = service;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserServiceMatrix that = (UserServiceMatrix) o;
+        return userType == that.userType && service.equals(that.service);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userType, service);
     }
 }

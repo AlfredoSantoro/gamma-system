@@ -35,22 +35,28 @@ public class AuthApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        UserServiceMatrix userServiceMatrix = new UserServiceMatrix();
-        userServiceMatrix.setService("pec");
-        userServiceMatrix.setUserType(UserType.ADMIN);
-        UserServiceMatrix userServiceMatrix2 = new UserServiceMatrix();
-        userServiceMatrix2.setService("sign");
-        userServiceMatrix2.setUserType(UserType.ADMIN);
-        UserServiceMatrix userServiceMatrix3 = new UserServiceMatrix();
-        userServiceMatrix3.setService("storage");
-        userServiceMatrix3.setUserType(UserType.ADMIN);
-        this.userMatrixRepository.saveAll(List.of(userServiceMatrix, userServiceMatrix2, userServiceMatrix3));
+        loadUserServiceMatrix();
         Sha256PasswordEncoder passwordEncoder = new Sha256PasswordEncoder();
-        User user = new User();
-        user.setUsername("mario");
-        user.setPassword(passwordEncoder.encode("mariorossi"));
-        user.setUserType(UserType.ADMIN);
-        var userSaved = this.userRepository.save(user);
-        System.out.println("user " + userSaved.getUsername() + " saved successfully");
+        User guest = new User();
+        guest.setUsername("guest");
+        guest.setPassword(passwordEncoder.encode("guest"));
+        guest.setUserType(UserType.GUEST);
+        this.userRepository.save(guest);
+    }
+
+    private void loadUserServiceMatrix() {
+        UserServiceMatrix adminPecService = new UserServiceMatrix();
+        adminPecService.setService("pec");
+        adminPecService.setUserType(UserType.ADMIN);
+        UserServiceMatrix adminSignService = new UserServiceMatrix();
+        adminSignService.setService("sign");
+        adminSignService.setUserType(UserType.ADMIN);
+        UserServiceMatrix adminStorageService = new UserServiceMatrix();
+        adminStorageService.setService("storage");
+        adminStorageService.setUserType(UserType.ADMIN);
+        UserServiceMatrix userSignService = new UserServiceMatrix();
+        userSignService.setService("pec");
+        userSignService.setUserType(UserType.USER);
+        this.userMatrixRepository.saveAll(List.of(adminPecService, adminSignService, adminStorageService, userSignService));
     }
 }

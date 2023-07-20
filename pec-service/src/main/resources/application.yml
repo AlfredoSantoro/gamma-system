@@ -10,7 +10,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
 
 identity:
@@ -18,3 +18,8 @@ identity:
     secret: cloLptCUJGemHqbVE6^s6WMxGvVyEdW1iQRXh2P?NCNJVqd1H8B7v8RFt9gXgQL7
     prefix: Bearer
     param: Authorization
+
+app:
+  security:
+    service:
+      name: pec

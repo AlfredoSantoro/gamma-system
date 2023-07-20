@@ -6,6 +6,7 @@ import com.gamma.auth.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +24,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     private String secret;
     @Value("${identity.jwt.param}")
     private String param;
-
+    @Value("${app.security.service.name}")
+    private String serviceName;
     @Autowired
     private UserDetailService userDetailService;
 
@@ -32,7 +34,10 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http
                 .cors().disable()
                 .csrf().disable()
-                .authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests()
+                .antMatchers("/api/v1/messages/**")
+                .hasAnyAuthority(serviceName)
+                .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new AuthorizationFilter(this.authenticationManager(), this.param, this.prefix, this.secret), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

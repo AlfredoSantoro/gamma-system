@@ -35,8 +35,8 @@ public class UserDetailService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        this.logger.info("### checking user " + username);
-        Optional<User> optionalUser = this.userRepository.findByUsername(username);
+        this.logger.info("### checking user {}", username);
+        Optional<User> optionalUser = this.userRepository.findById(username);
         if (optionalUser.isPresent()) {
             var grantedAuthorityList = this.userMatrixRepository.findByUserType(optionalUser.get().getUserType())
                     .stream()

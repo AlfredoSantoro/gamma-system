@@ -7,15 +7,12 @@ import java.util.Objects;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
+    private String username;
     private String name;
     private String surname;
     @Enumerated(EnumType.STRING)
     private UserType userType;
-    @Column(nullable = false, unique = true)
-    private String username;
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(nullable = false)
     private String password;
 
     /*
@@ -27,10 +24,6 @@ public class User {
      */
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     private Collection<Pec> pecCollection;
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -77,11 +70,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id.equals(user.id) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && userType == user.userType && username.equals(user.username) && password.equals(user.password);
+        return username.equals(user.username);
     }
 
     @Override
     public int hashCode() {
-        return this.getClass().hashCode();
+        return Objects.hash(username);
     }
 }
